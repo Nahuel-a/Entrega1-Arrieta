@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+
+
+{% block titulo %}
+    Formulario
+{% endblock titulo%}
+
+{% block titulo_principal %}
+    Formulario para añadir posts
+{% endblock titulo_principal %}
+
+{% block formulario %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <p>Titulo:</p>
+        <input type="text" name="titulo">
+        <p>Descripcion:</p>
+        <input type="text" name="descripcion">
+        <p>Contenido:</p>
+        <input type="text" name="contenido">
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+{% endblock formulario %}
