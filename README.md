@@ -14,6 +14,9 @@ Donde :
 
 'Añadir post': Se añaden los posts y los mismos se pueden apreciar en el 'Inicio'.
                Cada post tiene un link que te lleva hacia otra url para apreciar su contenido.
+							 
 'Añadir categoria': Se añaden las categorias a la base de datos.
+
 'Añadir autor': Se añaden los autores a la base de datos.
+
 'Autores': Aca se pueden ver todos los autores y en la barra de busqueda se pueden filtrar los autores.
