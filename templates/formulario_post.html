@@ -9,16 +9,16 @@
     Formulario para añadir posts
 {% endblock titulo_principal %}
 
-{% block formulario %}
-    <form action="" method="POST">
+{% block contenido %}
+    <form method="POST">
         {% csrf_token %}
-        <p>Titulo:</p>
-        <input type="text" name="titulo">
-        <p>Descripcion:</p>
-        <input type="text" name="descripcion">
-        <p>Contenido:</p>
-        <input type="text" name="contenido">
+        <p>Titulo: <input type="text" name="titulo"></p>
+        
+        <p>Descripcion: <input type="text" name="descripcion"></p>
+        
+        <p>Contenido: <input type="text" name="contenido"> </p>
+        
         <br>
         <input type="submit" value="Enviar">
     </form>
-{% endblock formulario %}
+{% endblock contenido %}

@@ -8,5 +8,5 @@ urlpatterns = [
     path('formulario_categoria/', formulario_categoria, name='formulario_categoria'),
     path('formulario_autor/', formulario_autor, name='formulario_autor'),
     path('buscar_autor/', buscar_autor, name='buscar_autor'),
-
+    path('<str:titulo>/', detallePost, name='detalle_post'),
 ]

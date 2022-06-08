@@ -13,6 +13,7 @@ class Autor(models.Model):
     nombres = models.CharField(max_length=100, null=False, blank=False)
     apellido = models.CharField(max_length=100, null=False, blank=False)
     correo = models.EmailField(blank=False, null=False)
+    estado = models.BooleanField('Autor Activo/No activo', default=True)
     fecha_creacion = models.DateField(auto_now=False, auto_now_add=True)
 
     def __str__(self):

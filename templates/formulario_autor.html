@@ -9,16 +9,16 @@
     Formulario para añadir autor
 {% endblock titulo_principal %}
 
-{% block formulario %}
-    <form action="" method="POST">
+{% block contenido %}
+    <form method="POST">
         {% csrf_token %}
-        <p>Nombre:</p>
-        <input type="text" name="nombre">
-        <p>Apellido:</p>
-        <input type="text" name="apellido">
-        <p>Correo:</p>
-        <input type="email" name="correo">
+        <p>Nombres: <input type="text" name="nombres"></p>
+         
+        <p>Apellido: <input type="text" name="apellido"></p>
+        
+        <p>Correo: <input type="email" name="correo"></p>
+        
         <br>
         <input type="submit" value="Enviar">
     </form>
-{% endblock formulario %}
+{% endblock contenido %}

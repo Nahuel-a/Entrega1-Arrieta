@@ -1,13 +1,20 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Post, Autor, Categorias
 from .forms import FormAutor, FormPost, FormCategoria
+from django.db.models import Q
 
 # Create your views here.
 
 def home(request):
     posts = Post.objects.filter(estado = True)
     return render (request, 'index.html',{'posts':posts})
+
+def detallePost(request, titulo):
+    post = Post.objects.get(
+        titulo = titulo
+    )
+    print(post)
+    return render(request, 'posts.html', {'detalle_post':post})
 
 
 def cosplays(request):
@@ -22,7 +29,6 @@ def formulario_post(request):
             datos = mi_formulario.cleaned_data
             post = Post(
                 titulo = datos['titulo'], 
-                
                 descripcion = datos['descripcion'],
                 contenido = datos['contenido'],
             )
@@ -54,7 +60,7 @@ def formulario_autor(request):
         if mi_formulario.is_valid():
             datos = mi_formulario.cleaned_data
             post = Autor(
-                nombre = datos['nombre'], 
+                nombres = datos['nombres'], 
                 apellido = datos['apellido'],
                 correo = datos['correo'],
             )
@@ -64,13 +70,20 @@ def formulario_autor(request):
 
     return render(request, 'formulario_autor.html')
 
-
 def buscar_autor(request):
+    queryset = request.GET.get("buscar")
+    autores = Autor.objects.filter(estado = True)
 
-    if request.GET['nombre']:
-        nombre = request.GET['nombre']
-        autores = Autor.objects.filter(nombre__icontains = nombre)
-        return render(request, "buscar_autor.html", {"autor": autores})
-    else:
-        return HttpResponse("Campo vacio")
+    if queryset:
+        autores = Autor.objects.filter(
+            Q(nombres__icontains = queryset) |
+            Q(apellido__icontains = queryset)
+        ).distinct()
+    
+    return render (request, 'buscar_autor.html', {'autores':autores})
+
+    
+
+
+
 

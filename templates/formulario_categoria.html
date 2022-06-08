@@ -9,12 +9,12 @@
     Formulario para añadir categorias
 {% endblock titulo_principal %}
 
-{% block formulario %}
-    <form action="" method="POST">
+{% block contenido %}
+    <form method="POST">
         {% csrf_token %}
-        <p>Nombre de la categoria:</p>
-        <input type="text" name="categoria">
+        <p>Nombre de la categoria: <input type="text" name="nombre"> </p>
         <br>
         <input type="submit" value="Enviar">
+        
     </form>
-{% endblock formulario %}
+{% endblock contenido %}
