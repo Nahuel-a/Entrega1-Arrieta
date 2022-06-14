@@ -1,12 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Post, Autor, Categorias
 from .forms import FormAutor, FormPost, FormCategoria
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 # Create your views here.
 
 def home(request):
     posts = Post.objects.filter(estado = True)
+    
+    paginator = Paginator(posts, 2)
+    pagina = request.GET.get('page')
+    posts = paginator.get_page(pagina) 
+    
     return render (request, 'index.html',{'posts':posts})
 
 def detallePost(request, titulo):
@@ -54,21 +60,22 @@ def formulario_categoria(request):
     return render(request, 'formulario_categoria.html')
 
 def formulario_autor(request):
+    
     if request.method == "POST":
-        mi_formulario = FormAutor(request.POST)
+        autor_form = FormAutor(request.POST)
+        if autor_form.is_valid():
+            # datos = mi_formulario.cleaned_data
+            # post = Autor(
+            #     nombres = datos['nombres'], 
+            #     apellido = datos['apellido'],
+            #     correo = datos['correo'],
+            # )
+            autor_form.save()
+            return redirect('blog:index')
+    else:
+        autor_form = FormAutor()
 
-        if mi_formulario.is_valid():
-            datos = mi_formulario.cleaned_data
-            post = Autor(
-                nombres = datos['nombres'], 
-                apellido = datos['apellido'],
-                correo = datos['correo'],
-            )
-            post.save()
-
-            return render(request, "formulario_autor.html")
-
-    return render(request, 'formulario_autor.html')
+    return render(request, 'formulario_autor.html', {'autor_form':autor_form})
 
 def buscar_autor(request):
     queryset = request.GET.get("buscar")

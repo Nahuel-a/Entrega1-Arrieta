@@ -10,15 +10,13 @@
 {% endblock titulo_principal %}
 
 {% block contenido %}
+
     <form method="POST">
         {% csrf_token %}
-        <p>Nombres: <input type="text" name="nombres"></p>
-         
-        <p>Apellido: <input type="text" name="apellido"></p>
         
-        <p>Correo: <input type="email" name="correo"></p>
-        
-        <br>
-        <input type="submit" value="Enviar">
+        {{ autor_form.as_p }}
+
+        <button type="submit">Crear</button>
     </form>
+
 {% endblock contenido %}
