@@ -35,6 +35,21 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'blog:formulario_autor' %}">Añadir un autor</a></li>
                         <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'blog:cosplays' %}">Cosplays</a></li> -->
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'blog:buscar_autor' %}">Autores</a></li>
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="#">@{{ user.username }}</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="#">Cambiar Contraseña</a>
+                        </li>
+                        {% endif %}
                         
                         <div class="top-right">
                             <div class="header-menu">
@@ -43,9 +58,21 @@
                                         <img class="user-avatar rounded-circle" src="{% static 'assets/img/admin.png' %}" alt="User Avatar" >
                                     </a>
                                     <div class="user-menu dropdown-menu">
-                                        <a class="nav-link" href="#">Cambiar Contraseña</a>
-                                        <a class="nav-link" href="#">Cambiar Contraseña</a>
-                                        <a class="nav-link" href="#">Cambiar Contraseña</a>
+                                        {% if user.is_authenticated %}
+                                        <li>
+                                            <a href="#">@{{ user.username }}</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                                        </li>
+                                        {% else %}
+                                        <li>
+                                            <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="#">Cambiar Contraseña</a>
+                                        </li>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 

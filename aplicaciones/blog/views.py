@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import Post, Autor, Categorias
-from .forms import FormAutor, FormPost, FormCategoria
+from .forms import CustomUserCreationForm, FormAutor, FormPost, FormCategoria, UserCreationForm
 from django.db.models import Q
 from django.core.paginator import Paginator
 
@@ -61,6 +61,19 @@ def formulario_categoria(request):
 
 def formulario_autor(request):
     
+    datos ={
+        'form': FormAutor
+    }
+    if request.method == 'POST':
+        autor_form = FormAutor(datos=request.POST)
+        if autor_form.is_valid():
+            autor_form.save()
+
+            return redirect('blog:index')
+        datos['form'] = autor_form
+
+    return render(request, 'formulario_autor.html', datos)
+
     if request.method == "POST":
         autor_form = FormAutor(request.POST)
         if autor_form.is_valid():
@@ -90,7 +103,9 @@ def buscar_autor(request):
     return render (request, 'buscar_autor.html', {'autores':autores})
 
     
+def registro(request):
+    data = {
+        'form':CustomUserCreationForm
+    }
 
-
-
-
+    return render(request, 'register.html',data)

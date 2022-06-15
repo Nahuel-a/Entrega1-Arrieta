@@ -1,5 +1,6 @@
 from django import forms
 from .models import Autor
+from django.contrib.auth.forms import UserCreationForm
 
 class FormCategoria(forms.Form):
     nombre = forms.CharField(max_length=100)
@@ -16,4 +17,5 @@ class FormPost(forms.Form):
     descripcion = forms.CharField(max_length=100)
     contenido = forms.CharField(widget=forms.Textarea)
 
-    
+class CustomUserCreationForm(UserCreationForm):
+    pass
