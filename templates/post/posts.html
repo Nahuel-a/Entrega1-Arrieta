@@ -13,6 +13,10 @@
 {% endblock titulo_principal %}
 
 {% block contenido %}
+    {% if detalle_post.imagen %}
+        <img src="detalle_post.imagen.url" alt="">
+    {% endif %}
     {{ detalle_post.contenido }}
+    
 {% endblock contenido %}
 

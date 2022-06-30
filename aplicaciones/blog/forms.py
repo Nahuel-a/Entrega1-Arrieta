@@ -1,21 +1,23 @@
 from django import forms
-from .models import Autor
-from django.contrib.auth.forms import UserCreationForm
-
-class FormCategoria(forms.Form):
-    nombre = forms.CharField(max_length=100)
+from .models import Categorias, Post
 
 
-class FormAutor(forms.Form):
-   class Meta:
-        model = Autor
-        fields = ['nombres', 'apellido', 'email']
+class FormCategoria(forms.ModelForm):
+    class Meta:
+        model = Categorias
+        fields = ['nombre']
 
 
-class FormPost(forms.Form):
-    titulo = forms.CharField(max_length=100)
-    descripcion = forms.CharField(max_length=100)
-    contenido = forms.CharField(widget=forms.Textarea)
+# class FormAutor(forms.ModelForm):    
+#     class Meta:
+#         model = Autor
+#         fields = ['nombres', 'apellido', 'correo']
 
-class CustomUserCreationForm(UserCreationForm):
-    pass
+
+class FormPost(forms.ModelForm):
+    
+    class Meta:
+        model = Post
+        fields = ['autor', 'categoria', 'titulo', 'descripcion', 'contenido', 'imagen']
+    
+

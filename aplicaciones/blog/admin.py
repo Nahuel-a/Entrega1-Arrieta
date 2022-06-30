@@ -5,10 +5,12 @@ class CategoriaAdmin(admin.ModelAdmin):
     search_fields = ['nombre']
     list_display = ('nombre', 'fecha_creacion')
 
-class AutorAdmin(admin.ModelAdmin):
-    search_fields = ['nombres', 'apellido']
-    list_display = ('nombres', 'apellido', 'fecha_creacion')
+
+class PostAdmin(admin.ModelAdmin):
+    # search_fields = ["categoria"]
+    list_display = ["titulo", "imagen", "fecha_creacion", "estado"]
+    list_per_page = 5
 
 admin.site.register(Categorias, CategoriaAdmin)
-admin.site.register(Autor, AutorAdmin)
-admin.site.register(Post) 
+
+admin.site.register(Post, PostAdmin) 

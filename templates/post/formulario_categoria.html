@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+
+
+{% block titulo %}
+    Formulario
+{% endblock titulo%}
+
+{% block titulo_principal %}
+    Añadir categoria
+{% endblock titulo_principal %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form | crispy }}
+                            <br>
+                            <input type="submit" value="Crear" class="btn btn-succes float-end">
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock contenido %}

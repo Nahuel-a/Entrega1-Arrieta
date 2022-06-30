@@ -1,0 +1,33 @@
+{% extends "users/base.html" %}
+
+{% block titulo %} Ingresar al sistema {% endblock titulo %}
+
+{% block titulo_user %}
+    <h2>Iniciar sesión</h2>
+{% endblock titulo_user %}
+
+{% block contenido %}
+    {% load crispy_forms_tags %}
+    
+    {% if error %}
+        <p class="alert alert-danger">{{ error }}</p>
+    {% endif %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="Nombre de usuario" name="username" />
+        </div>
+        <br>
+        <div class="form-group">
+            <input class="form-control" type="password" placeholder="Contraseña" name="password" />
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-block mt-2" type="submit">Ingresar</button>
+        </div>
+        
+        <hr>
+        <a href="{% url 'blog:index' %}">Ir a inicio</a> |
+        <a href="{% url 'account:register' %}">Registrate</a>
+        
+    </form>
+{% endblock contenido %}

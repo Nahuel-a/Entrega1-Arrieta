@@ -1,0 +1,54 @@
+{% extends "users/base.html" %}
+
+{% block titulo %} Ingresar al sistema {% endblock titulo %}
+
+{% block titulo_user %}
+    <h2>Registrate</h2>
+{% endblock titulo_user %}
+
+{% block contenido %}
+    {% load crispy_forms_tags %}
+    
+    <form action="" method="post">
+    {% if error %}
+        <p class="alert alert-danger">{{ error }}</p>
+    {% endif %}
+
+    {% csrf_token %}
+
+    <div class="form-group">
+        <input class="form-control" type="text" placeholder="Username" name="username" required="true" />
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" type="password" placeholder="Contraseña" name="password" required="true" />
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" type="password" placeholder="Confirmar contraseña" name="password_confirm" required="true" />
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" type="text" placeholder="Nombre" name="nombre" required="true" />
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" type="text" placeholder="Apellido" name="apellido" required="true" />
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" type="email" placeholder="Correo electronico" name="email" required="true" />
+    </div>
+
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary btn-block mt-2" type="submit">Registrar</button>
+    </div>
+   
+    <br>
+    <a href="{% url 'blog:index' %}">Ir a inicio</a> |
+    <a href="{% url 'account:login' %}">Iniciar sesion</a>                    
+    
+    </form>
+                
+{% endblock contenido %}
+
