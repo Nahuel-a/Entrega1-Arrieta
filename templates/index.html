@@ -48,7 +48,13 @@
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link px-lg-3 py-3 py-lg-4" href="#">@{{ user.username }}</a>
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" href="#">
+                                {% if request.user.profile.avatar %}
+                                    <img src="{{ request.user.profile.avatar.url }}" height="35" class="d-inline-block aling-top rounded-circle" >
+                                {% else %}
+                                    <img src="{% static 'assets/img/users.png' %}" height="35" class="d-inline-block aling-top rounded-circle" >
+                                {% endif %}
+                            </a>
                         </li>
                         <li class="nav-item nav-item">
                             <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'account:logout' %}">

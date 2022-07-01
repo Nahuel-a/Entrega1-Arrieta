@@ -2,12 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from django.db.utils import IntegrityError
+from .forms import RegistroForm
 
-from django.contrib.auth.models import User
-from .models import PerfilUsuario
-
-# Create your views here.
 
 def inicio_sesion(request):
     if request.method == 'POST':
@@ -24,32 +20,18 @@ def inicio_sesion(request):
 
 
 def registro(request):
-    if request.method =='POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        password_confirm = request.POST['password_confirm']
-
-        if password != password_confirm:
-            return render(request, 'users/register.html',{'error': 'Las contraseñas no coinciden!'})
-        
-        try:
-            user = User.objects.create_user(username=username, password=password)
-        except IntegrityError:
-            return render(request, 'users/register.html',{'error': 'Nombre de usuario ya existente'})
-
-        user.first_name = request.POST['nombre']
-        user.last_name = request.POST['apellido']
-        user.email = request.POST['email']
-        user.save()
-
-        perfil = PerfilUsuario(user=user)
-        perfil.save()
-
-        return redirect('blog:index')
-    return render(request, 'users/register.html')
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            form.save()
+            redirect('blog:index')
+    else:
+        form = RegistroForm()
+    return render(request, 'users/register.html', {'form':form})
 
 
 def actualizar_perfil(request):
+    
     return render('users/profile.html')
 
 
