@@ -12,7 +12,7 @@ def home(request):
     pagina = request.GET.get('page')
     posts = paginator.get_page(pagina) 
     
-    return render (request, 'index.html',{'posts':posts})
+    return render (request, 'post/index.html',{'posts':posts})
 
 
 def detallePost(request, titulo):

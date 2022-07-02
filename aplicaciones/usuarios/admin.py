@@ -8,8 +8,8 @@ from .models import PerfilUsuario
 @admin.register(PerfilUsuario)
 class PerfilAdmin(admin.ModelAdmin):
     
-    list_display = ('pk', 'user')
-   
+    list_display = ('pk', 'user',  'avatar')
+
     
 
 class PerfilInLine(admin.StackedInline):

@@ -8,16 +8,19 @@
 
 {% block contenido %}
     
+    <form action="" method="post">
     {% csrf_token %}
 
     {{form.as_p}}
     
-   
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary btn-block mt-2" type="submit">Registrarse</button>
+    </div>
+
     <br>
+    </form>
     <a href="{% url 'blog:index' %}">Ir a inicio</a> |
     <a href="{% url 'account:login' %}">Iniciar sesion</a>                    
-    
-    </form>
                 
 {% endblock contenido %}
 

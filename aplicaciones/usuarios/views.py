@@ -24,15 +24,15 @@ def registro(request):
         form = RegistroForm(request.POST)
         if form.is_valid():
             form.save()
-            redirect('blog:index')
+            return redirect('blog:index')
     else:
         form = RegistroForm()
     return render(request, 'users/register.html', {'form':form})
 
 
 def actualizar_perfil(request):
-    
-    return render('users/profile.html')
+   
+    return render(request, 'users/profile.html')
 
 
 @login_required
