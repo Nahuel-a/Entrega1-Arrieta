@@ -1,4 +1,5 @@
 {% extends 'post/index.html' %}
+
 {% load static %}
 
 {% block titulo %}
@@ -13,10 +14,71 @@
 {% endblock titulo_principal %}
 
 {% block contenido %}
-    {% if detalle_post.imagen %}
-        <img src="detalle_post.imagen.url" alt="">
+
+    <div class="container">
+        {% if detalle_post.imagen %}
+        <img src="{{ detalle_post.imagen.url }}" alt="">
+        {% endif %}
+    </div>
+
+    <div class="row justify-content-md-center">
+        {{ detalle_post.contenido }}
+    </div>
+    <br><br>
+    <hr>
+    {% if user.is_authenticated %}   
+        <div>
+            <form action="{% url 'blog:post_comentario' post_id=detalle_post.id %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="body">
+                        <strong>
+                            @{{user.username}}
+                        </strong>
+                    </label>
+                    {{comentarios.comentario}}
+                    
+                </div>
+                <button type="submit" class="btn btn-primary">Publicar</button>
+            </form>
+        </div>
+    {% else %}
+        <br>
+        <h5 class="row justify-content-center">
+            <a href="{% url 'account:login' %}">Ingresar</a>
+        </h5>
+        <br>
     {% endif %}
-    {{ detalle_post.contenido }}
-    
+<br>
+{% if comentarios %}
+    {% for comentario in comentarios %}
+
+        <ul class="w3-ul w3-card-4">
+            <li class="w3-bar">
+            <img src="{% static 'assets/img/admin.png' %}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+            <div class="w3-bar-item">
+                <span class="w3-large">@{{user.username}}</span><br>
+                <span>{{ comentario.comentario }}</span>
+            </div>
+            </li>
+        </ul>
+
+    {% endfor %}
+{% else %}
+        <h1>No exinten comentarios aun</h1>
+{% endif %}
+
 {% endblock contenido %}
 
+<hr>
+<p>
+    <strong style="color: red;">
+
+    </strong>
+    <span style="color: green;">
+    
+    </span>
+</p>
+<pre style="font-family: inherit; font-size: 1em;">
+
+</pre>

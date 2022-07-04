@@ -14,3 +14,5 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Categorias, CategoriaAdmin)
 
 admin.site.register(Post, PostAdmin) 
+
+admin.site.register(Comentarios)

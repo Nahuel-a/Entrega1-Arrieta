@@ -10,15 +10,14 @@ class PerfilAdmin(admin.ModelAdmin):
     
     list_display = ('pk', 'user',  'avatar')
 
-    
 
-class PerfilInLine(admin.StackedInline):
+class PerfilInline(admin.StackedInline):
     model = PerfilUsuario
     can_delete = False
     verbose_name_plural = 'perfiles'
 
 class UsuarioAdmin(UserAdmin):
-    inlines = (PerfilInLine,)
+    inlines = (PerfilInline,)
     list_display = (
         'username',
         'email',

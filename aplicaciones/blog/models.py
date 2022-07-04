@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
 class Categorias(models.Model):
     nombre = models.CharField(max_length=40, blank=False, null=False)
     fecha_creacion = models.DateField(auto_now=False, auto_now_add=True)
@@ -27,5 +26,11 @@ class Post(models.Model):
         return self.titulo
     
 
-# class Comentarios(models.Model):
-#     comentario = 
+class Comentarios(models.Model):
+    comentario_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comentario = models.TextField()
+
+    fecha_creacion = models.DateField(auto_now=False, auto_now_add=True)
+
+    def __str__(self):
+        return self.comentario[:20]

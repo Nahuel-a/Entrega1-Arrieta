@@ -2,7 +2,36 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from .forms import RegistroForm
+from aplicaciones.usuarios.models import PerfilUsuario
+
+from .forms import RegistroForm, PerfilForm
+
+
+
+
+def actualizar_perfil(request):
+    perfil = PerfilUsuario.objects.get(user = request.user)
+    if request.method == 'POST':
+        form = PerfilForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            perfil.biografia = data['biografia']
+            perfil.avatar = data['avatar']
+            perfil.save()
+
+            return redirect('account:profile')            
+    else:
+        form = PerfilForm()
+
+    return render(
+        request=request,
+        template_name= 'users/profile.html',
+        context= {
+            'perfil': form,
+            'user': request.user,
+        }
+    )
 
 
 def inicio_sesion(request):
@@ -28,11 +57,6 @@ def registro(request):
     else:
         form = RegistroForm()
     return render(request, 'users/register.html', {'form':form})
-
-
-def actualizar_perfil(request):
-   
-    return render(request, 'users/profile.html')
 
 
 @login_required

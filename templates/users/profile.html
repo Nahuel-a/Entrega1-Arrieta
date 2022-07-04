@@ -1,39 +1,43 @@
 {% extends 'base.html' %}
 
-{%load static%}
+{% load static %}
 
 {% block header %}
-<header class="masthead" style="background-image: url('static/assets/img/home-bg.jpg')">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="site-heading">
-                    <h2>{% block titulo_principal %}AikosPlay{% endblock titulo_principal %}</h2>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
+<header>
+    
 </header>
 {% endblock header%}
 
 {% block principal %}
 <br><br><br><br>
 <div class="container">
-    <div class="row">
-        <div class="col-12 col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST">
-                        
-                        
-                    </form>
+    <div class="row justify-content-md-center">
+        <div class="col-6 p-4" id="profile-box">
 
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-block mt-2" type="submit">Ingresar</button>
+            <form action="{% url 'account:profile' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+    
+                <div class="media">
+                    {% if perfil.avatar %}
+                        <img src="{{ perfil.avatar.url }}" height="40" class="d-inline-block aling-top rounded-circle" >
+                    {% else %}
+                        <img src="{% static 'assets/img/users.png' %}" height="40" class="d-inline-block aling-top rounded-circle" >
+                    {% endif %}
+                    
+                    <div class="media-body">
+                        <h5 class="ml-4">@{{ user.username }} | {{ user.get_full_name }}</h5>
+                        <p class="ml-4"><input type="file" name="avatar"></p>
                     </div>
                 </div>
-            </div>
+                <hr><br>
+                <div class="form-group">
+                    <label>Biografia</label>
+                    <textarea class="form-control" name="biografia" value="{{ perfil.biografia }}">{{ perfil.biografia }}</textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary btn-block mt-5">Actualizar perfil</button>
+    
+            </form>
         </div>
     </div>
 </div>

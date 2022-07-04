@@ -1,6 +1,8 @@
-from django.shortcuts import redirect, render
-from .models import Post
-from .forms import FormPost, FormCategoria
+from django.http import HttpResponse
+from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Post, Comentarios
+from .forms import FormComentario, FormPost, FormCategoria
 from django.db.models import Q
 from django.core.paginator import Paginator
 
@@ -15,13 +17,18 @@ def home(request):
     return render (request, 'post/index.html',{'posts':posts})
 
 
-def detallePost(request, titulo):
-    post = Post.objects.get(
-        titulo = titulo
+def detallePost(request, id):
+    post = Post.objects.get(id=id)
+
+    comentarios = Comentarios.objects.filter(comentario_post_id=id)
+    return render(
+        request = request,
+        template_name= 'post/posts.html', 
+        context={
+            'detalle_post':post,
+            'comentarios':comentarios,
+        }
     )
-
-    return render(request, 'post/posts.html', {'detalle_post':post})
-
 
 def cosplays(request):
     return render (request, 'cosplays.html')
@@ -57,20 +64,6 @@ def formulario_categoria(request):
     return render(request, 'post/formulario_categoria.html', categoria)
 
 
-def formulario_autor(request):
-    autor = {
-        'form': FormAutor
-    }
-    if request.method == 'POST':
-        autor_form = FormAutor(data=request.POST)
-        if autor_form.is_valid():
-            autor_form.save()
-            return redirect('blog:index')
-            
-        autor['form'] = autor_form
-
-    return render(request, 'post/formulario_autor.html', autor)
-
 
 def buscar_autor(request):
     queryset = request.GET.get("buscar")
@@ -83,3 +76,20 @@ def buscar_autor(request):
         ).distinct()
     
     return render (request, 'post/buscar_autor.html', {'autores':autores})
+
+@login_required
+def post_comentario(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        comentarios = FormComentario(request.POST)
+        if comentarios.is_valid():
+            nuevo_comentario = comentarios.save(commit=False)
+            nuevo_comentario.comentario_post = post
+            nuevo_comentario.save()
+
+            return redirect('blog:posts', id=post.id)
+    else:
+        comentarios = FormComentario()
+    
+    return render (request, '',{'comentarios':comentarios})
