@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comentarios
@@ -53,7 +54,7 @@ def formulario_post(request):
         post_form = FormPost(data=request.POST, files=request.FILES)
         if post_form.is_valid():
             post = post_form.save(commit=False)
-            post.autor =request.user
+            post.autor = request.user
             post.save()
 
             return render(request, "post/formulario_post.html")
@@ -75,6 +76,41 @@ def formulario_categoria(request):
             return redirect('blog:index')
 
     return render(request, 'post/formulario_categoria.html', categoria)
+
+
+def eliminar_post(request, id):
+    posts = Post.objects.get(id=id)
+    posts.delete()
+
+    posts = Post.objects.filter(estado = True)
+
+    return render (request, 'post/index.html',{'posts':posts})
+
+
+def editar_post(request, id):
+    posts = Post.objects.get(id=id)
+    if request.method == 'POST':
+        post_form = FormPost(data=request.POST, files=request.FILES)
+        if post_form.is_valid():
+            datos = post_form.cleaned_data
+            posts.titulo = datos['titulo']
+            posts.descripcion = datos['descripcion']
+            posts.contenido = datos['contenido']
+
+            posts = Post.objects.filter(estado = True)
+            return render (request, 'post/index.html',{'posts':posts})
+    else:
+        post_form = FormPost(
+            initial={
+                'titulo':posts.titulo,
+                'descripcion': posts.descripcion,
+                'contenido': posts.contenido,
+                'imagen':posts.imagen,
+                'autor':posts.autor
+            }
+        )
+    return render(request, 'post/editar_post.html',{'post_form':post_form, 'posts':posts})
+
 
 
 

@@ -1,0 +1,27 @@
+{% extends 'post/index.html' %}
+
+
+{% block titulo %}
+    Formulario
+{% endblock titulo%}
+
+{% block titulo_principal %}
+    Formulario para añadir posts
+{% endblock titulo_principal %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">   
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {{ post_form | crispy }}
+            <br>
+            
+            <input type="submit" value="Editar" class="btn btn-succes float-end">
+            
+        </form>  
+    </div>
+</div>
+{% endblock contenido %}

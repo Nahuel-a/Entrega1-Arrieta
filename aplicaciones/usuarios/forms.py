@@ -44,5 +44,14 @@ class RegistroForm(forms.Form):
 
 
 class PerfilForm(forms.Form):
-    bibliografia = forms.CharField(max_length=200, required=True)
+    biografia = forms.CharField( 
+        widget=forms.Textarea(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Biografia',
+                'rows': 4,
+                'cols':60
+            }
+        )
+    )
     avatar = forms.ImageField()

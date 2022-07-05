@@ -15,8 +15,8 @@
 {% endblock titulo_principal %}
 
 {% block contenido %}
-    <button><a class="w3-button w3-black w3-round-large" href="{% url 'blog:index' %}"><span class="glyphicon glyphicon-pencil">Editar</span></a></button>
-    
+    <button><a class="w3-button w3-black w3-round-large" href="{% url 'blog:editar_post' id=detalle_post.id %}"><span class="glyphicon glyphicon-pencil">Editar</span></a></button>
+    <button><a class="w3-button w3-black w3-round-large" href="{% url 'blog:eliminar_post' id=detalle_post.id %}"><span class="glyphicon glyphicon-pencil">Eliminar</span></a></button>
     
     <div class="container">
         {% if detalle_post.imagen %}

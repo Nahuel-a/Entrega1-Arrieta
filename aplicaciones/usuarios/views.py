@@ -8,27 +8,29 @@ from .forms import RegistroForm, PerfilForm
 
 
 
-
+@login_required
 def actualizar_perfil(request):
-    perfil = PerfilUsuario.objects.get(user = request.user)
     if request.method == 'POST':
-        form = PerfilForm(request.POST, request.FILES)
-        if form.is_valid():
-            data = form.cleaned_data
-
-            perfil.biografia = data['biografia']
-            perfil.avatar = data['avatar']
+        form_perfil = PerfilForm(data=request.POST, files=request.FILES)
+        if form_perfil.is_valid():
+            biografia=request.POST.get('biografia')
+            avatar=request.POST.get('avatar')
+            perfil=PerfilUsuario.objects.create(
+                user=request.user,
+                biografia=biografia,
+                avatar=avatar
+            )
             perfil.save()
 
             return redirect('account:profile')            
     else:
-        form = PerfilForm()
+        form_perfil = PerfilForm()
 
     return render(
         request=request,
         template_name= 'users/profile.html',
         context= {
-            'perfil': form,
+            'perfil': form_perfil,
             'user': request.user,
         }
     )
