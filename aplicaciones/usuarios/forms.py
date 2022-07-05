@@ -5,14 +5,14 @@ from .models import PerfilUsuario
 
 
 class RegistroForm(forms.Form):
-    username = forms.CharField(min_length=4, max_length=20)
-    password = forms.CharField(max_length=70, widget=forms.PasswordInput)
-    password_confirm = forms.CharField(max_length=70, widget=forms.PasswordInput)
+    username = forms.CharField(label='Nombre de usuario', min_length=4, max_length=20)
+    password = forms.CharField(label='Contraseña',max_length=70, widget=forms.PasswordInput)
+    password_confirm = forms.CharField(label='Confirmar contraseña',max_length=70, widget=forms.PasswordInput)
 
-    first_name = forms.CharField(min_length=3, max_length=30)
-    last_name = forms.CharField(min_length=3, max_length=40)
+    first_name = forms.CharField(label='Nombre',min_length=3, max_length=30)
+    last_name = forms.CharField(label='Apellido',min_length=3, max_length=40)
 
-    email = forms.CharField(min_length=6, max_length=50, widget=forms.EmailInput)
+    email = forms.CharField(label='Correo electronico',min_length=6, max_length=50, widget=forms.EmailInput)
 
 
     def clean_username(self):

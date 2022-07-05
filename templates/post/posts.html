@@ -10,11 +10,14 @@
     
     <h1>{{ detalle_post.titulo }}</h1>
     <p>{{ detalle_post.descripcion }}</p>
-
+    <p>Autor: @{{detalle_post.autor}}</p>
+    
 {% endblock titulo_principal %}
 
 {% block contenido %}
-
+    <button><a class="w3-button w3-black w3-round-large" href="{% url 'blog:index' %}"><span class="glyphicon glyphicon-pencil">Editar</span></a></button>
+    
+    
     <div class="container">
         {% if detalle_post.imagen %}
         <img src="{{ detalle_post.imagen.url }}" alt="">
@@ -24,31 +27,38 @@
     <div class="row justify-content-md-center">
         {{ detalle_post.contenido }}
     </div>
-    <br><br>
-    <hr>
-    {% if user.is_authenticated %}   
-        <div>
-            <form action="{% url 'blog:post_comentario' post_id=detalle_post.id %}" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="body">
-                        <strong>
-                            @{{user.username}}
-                        </strong>
-                    </label>
-                    {{comentarios.comentario}}
-                    
-                </div>
-                <button type="submit" class="btn btn-primary">Publicar</button>
-            </form>
+    
+    
+<br><br>
+<hr>
+{% if user.is_authenticated %}   
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        <div class="form-group">
+           <label for="body">
+                <strong>
+                    @{{user.username}}
+                </strong>
+            </label>
+            {{form_comentario.as_p}}
+                        
         </div>
-    {% else %}
-        <br>
-        <h5 class="row justify-content-center">
-            <a href="{% url 'account:login' %}">Ingresar</a>
-        </h5>
-        <br>
-    {% endif %}
+        <button type="submit" class="w3-button w3-black w3-round-large">Publicar</button>
+    </form>
+    
+    
+{% else %}
+    <br>
+    <h5 class="row justify-content-center">
+        <p>Ingrese para dejar su comentario</p>
+    </h5>
+    <button>
+        <a class="w3-button w3-black w3-round-large" href="{% url 'account:login' %}">
+            <span class="glyphicon glyphicon-pencil">Ingresar</span>
+        </a>
+    </button>
+    <br>
+{% endif %}
 <br>
 {% if comentarios %}
     {% for comentario in comentarios %}
@@ -57,7 +67,7 @@
             <li class="w3-bar">
             <img src="{% static 'assets/img/admin.png' %}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
             <div class="w3-bar-item">
-                <span class="w3-large">@{{user.username}}</span><br>
+                <span class="w3-large">@{{comentario.comentario_autor}}</span><br>
                 <span>{{ comentario.comentario }}</span>
             </div>
             </li>
@@ -69,16 +79,3 @@
 {% endif %}
 
 {% endblock contenido %}
-
-<hr>
-<p>
-    <strong style="color: red;">
-
-    </strong>
-    <span style="color: green;">
-    
-    </span>
-</p>
-<pre style="font-family: inherit; font-size: 1em;">
-
-</pre>

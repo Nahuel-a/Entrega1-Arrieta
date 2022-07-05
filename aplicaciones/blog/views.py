@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comentarios
@@ -17,37 +16,51 @@ def home(request):
     return render (request, 'post/index.html',{'posts':posts})
 
 
-def detallePost(request, id):
-    post = Post.objects.get(id=id)
+@login_required
+def detallePost(request, pk):
+    post = Post.objects.get(id=pk)
 
-    comentarios = Comentarios.objects.filter(comentario_post_id=id)
-    return render(
-        request = request,
-        template_name= 'post/posts.html', 
-        context={
+    comentarios = Comentarios.objects.filter(comentario_post=post)
+
+    if request.method == 'POST':
+        form_comentario=FormComentario(request.POST or None)
+        if form_comentario.is_valid():
+            contenido=request.POST.get('comentario')
+            comentario=Comentarios.objects.create(
+                comentario_post=post,
+                comentario_autor=request.user,
+                comentario=contenido
+            )
+            comentario.save()
+            redirect('blog:index')
+    else:
+        form_comentario=FormComentario()
+    
+    context={
             'detalle_post':post,
             'comentarios':comentarios,
+            'form_comentario':form_comentario,
         }
-    )
+    return render(request, 'post/posts.html', context)
 
 def cosplays(request):
     return render (request, 'cosplays.html')
 
-
+@login_required
 def formulario_post(request):
-    post = {
-        'form': FormPost
-    }
-    if request.method == "POST":
-        post_form = FormPost(data=request.POST)
 
+    if request.method == "POST":
+        post_form = FormPost(data=request.POST, files=request.FILES)
         if post_form.is_valid():
-                        
+            post = post_form.save(commit=False)
+            post.autor =request.user
             post.save()
 
             return render(request, "post/formulario_post.html")
+    else:
+        post_form = FormPost()
 
-    return render(request, 'post/formulario_post.html')
+    return render(request, 'post/formulario_post.html', {'post_form':post_form})
 
 
 def formulario_categoria(request):
@@ -76,20 +89,3 @@ def buscar_autor(request):
         ).distinct()
     
     return render (request, 'post/buscar_autor.html', {'autores':autores})
-
-@login_required
-def post_comentario(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
-    if request.method == 'POST':
-        comentarios = FormComentario(request.POST)
-        if comentarios.is_valid():
-            nuevo_comentario = comentarios.save(commit=False)
-            nuevo_comentario.comentario_post = post
-            nuevo_comentario.save()
-
-            return redirect('blog:posts', id=post.id)
-    else:
-        comentarios = FormComentario()
-    
-    return render (request, '',{'comentarios':comentarios})
