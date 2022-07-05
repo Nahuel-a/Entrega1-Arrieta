@@ -4,9 +4,9 @@ Para iniciar y navegar el proyecto tenes que seguir los siguientes pasos
 
 1 - Clonar o descargar el repositorio - git clone https://github.com/Nahuel-a/Entrega1-Arrieta
 
-2 - Instalar Django - pip install Django
+2 - Instalar requirement.txt - pip install -m requirement.txt
 
-3 - Migrar los archivos desde la consola - python manage.py migrate
+3 - Migrar los archivos desde la consola - python manage.py makemigrations - python manage.py migrate
 
 4 - Correr servidor - python manage.py runserver
 
@@ -16,11 +16,20 @@ Al ingresar a la web, en la esquina superior derecha se puede apreciar un menu c
 
 Donde : 
 
-'Añadir post': Se añaden los posts y los mismos se pueden apreciar en el 'Inicio'.
+'Añadir post': -Se añaden los posts y los mismos se pueden apreciar en el 'Inicio'.
                Cada post tiene un link que te lleva hacia otra url para apreciar su contenido.
+	       
+	      - Cuando se ingresa en un post se pueden apreciar 2 botones:
+	      		-'Editar': Este boton te permite editar el post actual.
+			-'Eliminar':Este boton elimina el post de la base de datos.
+			
+	      - Al final de la descripcion del post se encuentra un formulario que sirve para poder comentar el mismo.
+	      		-Se necesita estar logueado para poder dejar un comentario.
 							 
 'Añadir categoria': Se añaden las categorias a la base de datos.
 
-'Añadir autor': Se añaden los autores a la base de datos.
+'Iniciar sesion': Se inicia sesion a la web. 
+	-'Perfil': Cuando se inicia sesion aparece un link que te lleva al perfil de usuario.
 
-'Autores': Aca se pueden ver todos los autores y en la barra de busqueda se pueden filtrar los autores.
+'Registrase': Se crea un perfil de usuario.
+
